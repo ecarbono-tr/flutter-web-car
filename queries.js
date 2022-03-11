@@ -1,12 +1,15 @@
-const Pool = require('pg').Pool
+const { Pool, Client } = require('pg')
+const connectionString = 'postgres://vyxgnppokdwvqi:5da57ee2ec4d379bb15999a6522d23566e9ecb038699709f98100badf677e45c@ec2-34-205-209-14.compute-1.amazonaws.com:5432/d2c4ebai7v2e9b'
 const pool = new Pool({
-user: 'vyxgnppokdwvqi',
-host: 'ec2-34-205-209-14.compute-1.amazonaws.com',
-database: 'd2c4ebai7v2e9b',
-password: '5da57ee2ec4d379bb15999a6522d23566e9ecb038699709f98100badf677e45c',
-port: 5432,
+  connectionString,
 })
-
+// const pool = new Pool({
+// user: 'vyxgnppokdwvqi',
+// host: 'ec2-34-205-209-14.compute-1.amazonaws.com',
+// database: 'd2c4ebai7v2e9b',
+// password: '5da57ee2ec4d379bb15999a6522d23566e9ecb038699709f98100badf677e45c',
+// port: 5432,
+// })
 const getUsers = (request, response) => {
   pool.query('SELECT * FROM public.accounts', (error, results) => {
     if (error) {
