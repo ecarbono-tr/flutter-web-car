@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 var bodyParser = require('body-parser')
-const { Pool, Client } = require('./pg')
+const { Pool, Client } = require('pg')
 const db = require('./queries')
 const app = express();
 const port = process.env.PORT;
