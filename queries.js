@@ -1,22 +1,29 @@
-const { Pool, Client } = require('pg')
+
 const connectionString = 'postgres://vyxgnppokdwvqi:5da57ee2ec4d379bb15999a6522d23566e9ecb038699709f98100badf677e45c@ec2-34-205-209-14.compute-1.amazonaws.com:5432/d2c4ebai7v2e9b'
-const pool = new Pool({
-  connectionString,
-})
-// const pool = new Pool({
-// user: 'vyxgnppokdwvqi',
-// host: 'ec2-34-205-209-14.compute-1.amazonaws.com',
-// database: 'd2c4ebai7v2e9b',
-// password: '5da57ee2ec4d379bb15999a6522d23566e9ecb038699709f98100badf677e45c',
-// port: 5432,
-// })
-const getUsers = (request, response) => {
-  pool.query('SELECT * FROM public.accounts', (error, results) => {
-    if (error) {
-      throw error
-    }
-    response.status(200).json(results.rows)
-  })
+const { Client } = require('pg');
+
+const client = new Client({
+  connectionString: connectionString,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
+
+client.connect();
+
+const getUsers = async (request, response) => {
+  let result;
+  try {
+    result = await client.query('SELECT * FROM public.accounts;');
+    result = result.rows;
+  } catch (error) {
+    result = error;
+    throw Error("error");
+  }
+
+  response.json({
+    "data": result
+  });
 }
 
 const getUserById = (request, response) => {
@@ -30,18 +37,20 @@ const getUserById = (request, response) => {
 }
 
 const createUser = (request, response) => {
-  const {id,name,pass,email,create,last} = request.body
-  pool.query('INSERT INTO public.accounts (user_id,username,password,email,created_on,last_login) VALUES ($1, $2, $3, $4, $5 ,$6)', [id,name,pass ,email,create,last], (error, results) => {
+  const { id, name, pass, email, create, last } = request.body
+  pool.query('INSERT INTO public.accounts (user_id,username,password,email,created_on,last_login) VALUES ($1, $2, $3, $4, $5 ,$6)', [id, name, pass, email, create, last], (error, results) => {
     if (error) {
-      response.status(201).send({"respon":"1",
-      "mensaje":error.message,
-    })
-    }else{
-      response.status(201).send({"respon":"0",
-      "mensaje":"Ok",
-    })
+      response.status(201).send({
+        "respon": "1",
+        "mensaje": error.message,
+      })
+    } else {
+      response.status(201).send({
+        "respon": "0",
+        "mensaje": "Ok",
+      })
     }
-    
+
   })
 }
 
