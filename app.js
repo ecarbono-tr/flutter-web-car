@@ -15,7 +15,6 @@ app.post('/api/cusers',jsonParser, db.createUser)
 app.put('/api/upusers/:id', db.updateUser)
 app.delete('/api/dlusers/:id', db.deleteUser)
 
-const server = app.listen(process.env.PORT || 5000, () => {
-    
+const server = app.listen(process.env.PORT || 5000, () => {    
     console.log(`Express is working on port ${port}`);
 });
