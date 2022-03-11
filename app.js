@@ -7,7 +7,7 @@ const app = express();
 const port = process.env.PORT;
 
 var jsonParser = bodyParser.json()
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+//var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 app.get('/api/users', db.getUsers)
 app.get('/api/users/:id', db.getUserById)
