@@ -1,20 +1,10 @@
 require("dotenv").config();
 const express = require("express");
-var cors = require('cors');
 var bodyParser = require('body-parser')
 const { Pool, Client } = require('pg')
 const db = require('./queries')
 const app = express();
 
-app.use(
-	cors({
-		credentials: true,
-		origin: true
-	})
-);
-app.options('*', cors());
-
-app.get('/', (req, res) => res.send('Working!!!'));
 
 var jsonParser = bodyParser.json()
 //var urlencodedParser = bodyParser.urlencoded({ extended: false })
