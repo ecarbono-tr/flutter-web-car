@@ -7,9 +7,7 @@ password: '5da57ee2ec4d379bb15999a6522d23566e9ecb038699709f98100badf677e45c',
 port: 5432,
 })
 
-
 const getUsers = (request, response) => {
-  
   pool.query('SELECT * FROM public.accounts', (error, results) => {
     if (error) {
       throw error
@@ -20,7 +18,6 @@ const getUsers = (request, response) => {
 
 const getUserById = (request, response) => {
   const id = parseInt(request.params.id)
-
   pool.query('SELECT * FROM public.accounts WHERE user_id = $1', [id], (error, results) => {
     if (error) {
       throw error
@@ -43,13 +40,11 @@ const createUser = (request, response) => {
     }
     
   })
-  
 }
 
 const updateUser = (request, response) => {
   const id = parseInt(request.params.id)
   const { name, email } = request.body
-
   pool.query(
     'UPDATE users SET name = $1, email = $2 WHERE id = $3',
     [name, email, id],
@@ -64,7 +59,6 @@ const updateUser = (request, response) => {
 
 const deleteUser = (request, response) => {
   const id = parseInt(request.params.id)
-
   pool.query('DELETE FROM users WHERE id = $1', [id], (error, results) => {
     if (error) {
       throw error
