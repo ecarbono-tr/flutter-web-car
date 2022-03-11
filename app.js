@@ -11,7 +11,7 @@ app.use(express.json());
 //Api viahes
 app.get('/api/users', db.getUsers)
 app.get('/api/users/:id', db.getUserById)
-app.post('/api/cusers', jsonParser, db.createUser)
+app.post('/api/cusers', db.createUser)
 app.put('/api/upusers/:id', db.updateUser)
 app.delete('/api/dlusers/:id', db.deleteUser)
 
