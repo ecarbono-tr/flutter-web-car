@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const db = require('./queries')
+const service = require("./service");
 
 const port = process.env.PORT || 8080;
 
@@ -15,8 +16,7 @@ app.get('/api/users/:id', db.getUserById)
 app.post('/api/cusers', db.createUser)
 app.put('/api/upusers/:id', db.updateUser)
 app.delete('/api/dlusers/:id', db.deleteUser)
-
-
+app.post("/api/register",service.registerUser)
 
 
 //Run app
