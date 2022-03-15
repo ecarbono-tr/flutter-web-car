@@ -18,7 +18,7 @@ const getUsers = async (request, response) => {
     result = result.rows;
   } catch (error) {
     result = error;
-    throw Error("error");
+    
   }
 
   response.json({
@@ -26,63 +26,69 @@ const getUsers = async (request, response) => {
   });
 }
 
-const getUserById = (request, response) => {
+const getUserById = async (request, response) => {
   const id = parseInt(request.params.id)
-  pool.query('SELECT * FROM public.accounts WHERE user_id = $1', [id], (error, results) => {
-    if (error) {
-      throw error
-    }
-    response.status(200).json(results.rows)
-  })
+  let result;
+  try {
+    result = await client.query('SELECT * FROM public.accounts WHERE user_id = $1;',[id]);
+    result = result.rows;
+  } catch (error) {
+    result = error;
+    
+  }
+
+  response.json({
+    "data": result
+  });
 }
-
-const createUser = (request, response) => {
+const createUser = async (request, response) => {
   const { id, name, pass, email, create, last } = request.body
-  pool.query('INSERT INTO public.accounts (user_id,username,password,email,created_on,last_login) VALUES ($1, $2, $3, $4, $5 ,$6)', [id, name, pass, email, create, last], (error, results) => {
-    if (error) {
-      response.status(201).send({
-        "respon": "1",
-        "mensaje": error.message,
-      })
-    } else {
-      response.status(201).send({
-        "respon": "0",
-        "mensaje": "Ok",
-      })
-    }
-
-  })
+  let result;
+  try {
+    result = await client.query('INSERT INTO public.accounts (user_id,username,password,email,created_on,last_login) VALUES ($1, $2, $3, $4, $5 ,$6)', [id, name, pass, email, create, last]);
+    result = "OK";
+  } catch (error) {
+    result = error; 
+  }
+  response.json({
+    "data": result
+  });
 }
 
 const updateUser = (request, response) => {
   const id = parseInt(request.params.id)
-  const { name, email } = request.body
-  pool.query(
-    'UPDATE users SET name = $1, email = $2 WHERE id = $3',
-    [name, email, id],
-    (error, results) => {
-      if (error) {
-        throw error
-      }
-      response.status(200).send(`User modified with ID: ${id}`)
-    }
-  )
+  const { name, email } = request.body  
+  let result;
+  try {
+    result = client.query('UPDATE public.accounts SET username = $1, email = $2 WHERE user_id = $3',
+    [name, email, id]);
+    result = "OK";
+  } catch (error) {
+    result = error; 
+  }
+  response.json({
+    "data": result
+  });
 }
 
 const deleteUser = (request, response) => {
   const id = parseInt(request.params.id)
-  pool.query('DELETE FROM users WHERE id = $1', [id], (error, results) => {
-    if (error) {
-      throw error
-    }
-    response.status(200).send(`User deleted with ID: ${id}`)
-  })
+  let result;
+  try {
+    result = client.query('DELETE FROM public.accounts WHERE user_id = $1', [id]);
+    result = "OK";
+  } catch (error) {
+    result = error; 
+  }
+  response.json({
+    "data": result
+  });
 }
-
 module.exports = {
   getUsers,
   getUserById,
   createUser,
   updateUser,
   deleteUser,
+  
 }
