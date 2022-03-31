@@ -6,7 +6,7 @@ const getUser = async (request, respo = response) => {
   let result;
   try {
     result = await getUsermodel(request);
-    result = result.rows;
+    result = result.rows[0];
   } catch (error) {
     result = error;
   }
