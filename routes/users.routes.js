@@ -16,7 +16,7 @@ router.get('/refresh', refresh);
 
 
 //Api viahes
-router.get('/login', getUser);
+router.post('/login', getUser);
 
 router.post('/cusers', body('email').isEmail(), body('password').isLength({ min: 5 }), async (req, res) => {
     const errors = validationResult(req);
