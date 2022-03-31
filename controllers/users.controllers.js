@@ -1,32 +1,16 @@
 const {response} = require("express");
-const { getUsers, setUsers } = require("../models/users.models");
+const { getUsermodel, setUsers } = require("../models/users.models");
 
 
-const getUsersCon = async (request, respo = response) => {
+const getUser = async (request, respo = response) => {
   let result;
   try {
-    result = await getUsers();
+    result = await getUsermodel(request);
     result = result.rows;
   } catch (error) {
     result = error;
   }
   respo.json({
-    "data": result
-  });
-}
-
-const getUserById = async (request, response) => {
-  const id = parseInt(request.params.id)
-  let result;
-  try {
-    result = await client.query('SELECT * FROM public.accounts WHERE user_id = $1;',[id]);
-    result = result.rows;
-  } catch (error) {
-    result = error;
-    
-  }
-
-  response.json({
     "data": result
   });
 }
@@ -73,8 +57,7 @@ const deleteUser = (request, response) => {
   });
 }
 module.exports = {
-  getUsersCon,
-  getUserById,
+  getUser,
   createUser,
   updateUser,
   deleteUser,

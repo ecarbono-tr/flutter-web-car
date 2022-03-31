@@ -4,8 +4,7 @@ const { body, validationResult } = require('express-validator');
 
 
 const { signIn, welcome, refresh } = require("../handlers/handler");
-const { getUsersCon,
-    getUserById,
+const {getUser,
     createUser,
     updateUser,
     deleteUser } = require("../controllers/users.controllers");
@@ -17,8 +16,8 @@ router.get('/refresh', refresh);
 
 
 //Api viahes
-//router.get('/', getUsersCon);
-router.get('/:id', getUserById);
+router.get('/login', getUser);
+
 router.post('/cusers', body('email').isEmail(), body('password').isLength({ min: 5 }), async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

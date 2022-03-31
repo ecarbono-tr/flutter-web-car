@@ -1,10 +1,11 @@
 const { initDB } = require("../DB/connectDB");
 
-const getUsers = async () => {
+const getUsermodel = async (request) => {
+    const body= { email, pass} = request.body
     let result;
     try {
         const client = await initDB()
-        result = await client.query('SELECT * FROM public.accounts;');
+        result = await client.query('SELECT * FROM public.accounts WHERE email = $1 and password= $2;',[body.email,body.pass]);
     } catch (error) {
         result = error;
     }
@@ -24,6 +25,6 @@ const setUsers = async (body) => {
 }
 
 module.exports = {
-    getUsers,
+    getUsermodel,
     setUsers
 }
