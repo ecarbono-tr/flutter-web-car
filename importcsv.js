@@ -1,8 +1,9 @@
-const connectionString = 'postgres://vyxgnppokdwvqi:5da57ee2ec4d379bb15999a6522d23566e9ecb038699709f98100badf677e45c@ec2-34-205-209-14.compute-1.amazonaws.com:5432/d2c4ebai7v2e9b'
+
 const { Client } = require('pg');
 const service = require("./service");
 const client = new Client({
-    connectionString: connectionString,
+    connectionString: "postgres://wlynyuwvowepcg:c0eec84bb5d74388dd5def57d22d48dd90b3b1b941c5ae54739bba0cb213a0b0@ec2-52-3-60-53.compute-1.amazonaws.com:5432/d49j3228u6bd63",
+    
     ssl: {
         rejectUnauthorized: false
     }
@@ -31,7 +32,7 @@ const insertando = async () => {
     let result;
     const datos = {};
     try {
-        const query = 'INSERT INTO public.accounts (tipo_document,user_id,username,celular,email,rol,password,client,centro) VALUES ($1, $2, $3, $4,$5, $6, $7, $8,$9)';
+        const query = 'INSERT INTO public.cuentas (tipo_document,user_id,username,celular,email,rol,password,client,centro) VALUES ($1, $2, $3, $4,$5, $6, $7, $8,$9)';
         csvData.forEach(row => {
             client.query(query, row, (err, res) => {
                 if (err) {
@@ -40,9 +41,9 @@ const insertando = async () => {
                     console.log("inserted " + res.rowCount + " row:", row[4]);
                     datos['correo'] = row[4];
                     datos['pass'] = row[6];
-                    if (datos.correo != "0" && datos.pass != "0") {
-                        service.registerUser(datos);
-                    }
+                    // if (datos.correo != "0" && datos.pass != "0") {
+                    //     service.registerUser(datos);
+                    // }
                 }
             });
         });

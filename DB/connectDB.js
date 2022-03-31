@@ -1,10 +1,10 @@
 const { Client } = require('pg');
 
 const initDB = async () => {
-  const connectionString = process.env.DATABASE_URL;
+  
 
   const client = new Client({
-    connectionString: connectionString,
+    connectionString: process.env.DATABASE_URL,
     ssl: {
       rejectUnauthorized: false
     }
