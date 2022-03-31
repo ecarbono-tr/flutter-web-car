@@ -10,9 +10,7 @@ const getUser = async (request, respo = response) => {
   } catch (error) {
     result = error;
   }
-  respo.json({
-    "data": result
-  });
+  respo.json(result);
 }
 const createUser = async (request, response) => {
   const body= { user_id, username, password, email, tipo_document, celular, rol, cliente, centro } = request.body
