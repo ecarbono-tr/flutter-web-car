@@ -1,16 +1,18 @@
 const { initDB } = require("../DB/connectDB");
-const client={};
+
 const getUsermodel = async (request) => {
+    
     const { email, pass} = request.body
     let result;    
     try {
-        client = await initDB()
+        const client = await initDB()
         result = await client.query('SELECT * FROM public.cuentas WHERE email = $1 and password= $2;',[email,pass]);        
+
     } catch (error) {
         result = error;
         
     }
-    client.close()
+    
     return result;
 }
 const setUsers = async (body) => {
