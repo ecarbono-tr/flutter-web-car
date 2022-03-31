@@ -22,7 +22,7 @@ let csvStream = fastcsv
     .on("end", async function () {
 
         csvData.shift();
-        insertando();
+        await insertando();
 
     });
 stream.pipe(csvStream);
@@ -35,7 +35,7 @@ const insertando = async () => {
         csvData.forEach(row => {
             client.query(query, row, (err, res) => {
                 if (err) {
-                    console.log(err.stack);
+                    console.log("ya existe");
                 } else {
                     console.log("inserted " + res.rowCount + " row:", row[4]);
                     datos['correo'] = row[4];

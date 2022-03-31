@@ -1,5 +1,5 @@
 const {response} = require("express");
-const { getUsers } = require("../models/users.models");
+const { getUsers, setUsers } = require("../models/users.models");
 
 
 const getUsersCon = async (request, respo = response) => {
@@ -10,7 +10,6 @@ const getUsersCon = async (request, respo = response) => {
   } catch (error) {
     result = error;
   }
-
   respo.json({
     "data": result
   });
@@ -35,10 +34,9 @@ const createUser = async (request, response) => {
   const body= { user_id, username, password, email, tipo_document, celular, rol, cliente, centro } = request.body
   let result;
   try {
-    result = await client.query('INSERT INTO public.accounts (user_id, username, password, email, tipo_document, celular, rol, client, centro) VALUES ($1, $2, $3, $4, $5 ,$6,$7,$8,$9)', [user_id, username, password, email, tipo_document, celular, rol, cliente, centro]);
-    result = "OK";
+    result = await setUsers(body);
   } catch (error) {
-    result = error; 
+    result = "1"; 
   }
   response.json({
     "data": result

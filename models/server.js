@@ -1,8 +1,8 @@
 
 const express = require("express");
 const cors = require("cors");
-const initDB = require("../DB/connectDB");
-const { body, validationResult } = require('express-validator');
+const cookieParser = require('cookie-parser')
+
 
 class Server {
     constructor() {
@@ -19,8 +19,8 @@ class Server {
     middlewares() {
         //Config Json Express
         this.app.use(express.json());
-
         this.app.use(cors());
+        this.app.use(cookieParser());
     }
 
     routes() {
