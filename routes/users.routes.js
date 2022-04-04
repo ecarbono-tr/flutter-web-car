@@ -8,6 +8,10 @@ const {getUser,
     createUser,
     updateUser,
     deleteUser } = require("../controllers/users.controllers");
+    const { getClient,
+        createClient,
+        updateClient,
+        deleteClient,} = require("../controllers/clients.controllers");
 
 
 router.post('/signin', signIn);
@@ -17,6 +21,9 @@ router.get('/refresh', refresh);
 
 //Api viahes
 router.post('/login', getUser);
+router.get('/getclients', getClient);
+router.post('/deleteClient', deleteClient);
+router.post('/createClient', createClient);
 
 router.post('/cusers', body('email').isEmail(), body('password').isLength({ min: 5 }), async (req, res) => {
     const errors = validationResult(req);

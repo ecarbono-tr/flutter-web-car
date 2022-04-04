@@ -1,13 +1,14 @@
 
 const { Client } = require('pg');
 const service = require("./service");
-const conn ="postgres://wlynyuwvowepcg:c0eec84bb5d74388dd5def57d22d48dd90b3b1b941c5ae54739bba0cb213a0b0@ec2-52-3-60-53.compute-1.amazonaws.com:5432/d49j3228u6bd63";
+//const conn ="postgres://qcbovoabfmwfcd:37807c1a32260529888b854d8395bff747158126aefb04bc2629dc105a397b33@ec2-35-168-194-15.compute-1.amazonaws.com:5432/db6kvvs1k5b86t";
+const conn ="postgres://postgres:admin@127.0.0.1:5432/postgres";
 const client = new Client({
     connectionString: conn,
-   
-    ssl: {
-        rejectUnauthorized: false
-    }
+    ssl: false   
+    // ssl: {
+    //     rejectUnauthorized: false
+    // }
 });
 client.connect();
 
