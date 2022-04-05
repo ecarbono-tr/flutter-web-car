@@ -12,7 +12,6 @@ const getClient = async (request, respo = response) => {
   }
   respo.json(result);
 }
-
 const createClient = async (request, response) => {
   
   let result;

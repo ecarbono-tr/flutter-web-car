@@ -1,40 +1,18 @@
 const { Router } = require("express");
 const router = new Router();
-const { body, validationResult } = require('express-validator');
-
-
-const { signIn, welcome, refresh } = require("../handlers/handler");
-const {getUser,
-    createUser,
-    updateUser,
-    deleteUser } = require("../controllers/users.controllers");
+const {getUser, } = require("../controllers/users.controllers");
     const { getClient,
         createClient,
         updateClient,
         deleteClient,} = require("../controllers/clients.controllers");
 
-
-router.post('/signin', signIn);
-router.get('/welcome', welcome);
-router.get('/refresh', refresh);
-
-
-//Api viahes
+        
+//Api cliente
 router.post('/login', getUser);
 router.get('/getclients', getClient);
 router.post('/deleteClient', deleteClient);
 router.post('/createClient', createClient);
-
-router.post('/cusers', body('email').isEmail(), body('password').isLength({ min: 5 }), async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ data: "1" });
-    }
-    createUser(req, res)
-});
-router.put('/:id', updateUser);
-router.delete('/:id', deleteUser);
-
+router.post('/updateClient', updateClient);
 
 
 
