@@ -17,7 +17,7 @@ const getClientmodel = async (request) => {
 }
 const setClientmodel = async (body) => {
     let result;
-    const values = [body.id_cliente, body.nombre_cliente, body.telefono_cliente]
+    const values = [body.idcliente, body.nombre, body.telefono]
     try {
         client = await initDB()
         
