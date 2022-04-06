@@ -4,16 +4,32 @@ const {getUser, } = require("../controllers/users.controllers");
     const { getClient,
         createClient,
         updateClient,
-        deleteClient,} = require("../controllers/clients.controllers");
+        deleteClient,
+        getClientId,} = require("../controllers/clients.controllers");
+const { updateBuses, createBuses, deleteBuses, getBuses } = require("../controllers/bus.controllers");
+const { getDestinos, deleteDestinos, createDestinos, updateDestinos, getDestinosId } = require("../controllers/destinos.controllers");
 
         
 //Api cliente
 router.post('/login', getUser);
 router.get('/getclients', getClient);
+router.post('/getclientid', getClientId);
 router.post('/deleteClient', deleteClient);
 router.post('/createClient', createClient);
 router.post('/updateClient', updateClient);
 
+//Api Buses
+router.get('/getBuses', getBuses);
+router.post('/deleteBuses', deleteBuses);
+router.post('/createBuses', createBuses);
+router.post('/updateBuses', updateBuses);
+
+//Api Destinos
+router.get('/getDestinos', getDestinos);
+router.post('/getDestinosid', getDestinosId);
+router.post('/deleteDestinos', deleteDestinos);
+router.post('/createDestinos', createDestinos);
+router.post('/updateDestinos', updateDestinos);
 
 
 

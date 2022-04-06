@@ -11,6 +11,7 @@ const getClientmodel = async (request) => {
         
     }
     
+    console.log('message: ' + result);
     return result;
 }
 const setClientmodel = async (body) => {

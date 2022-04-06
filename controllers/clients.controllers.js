@@ -1,16 +1,26 @@
 const {response} = require("express");
-const { getClientmodel, setClientmodel,updateClientmodel,deleteClientmodel } = require("../models/clients.models");
+const { getClientmodel, getClientIdmodel,updateClientmodel,deleteClientmodel, setClientmodel } = require("../models/clients.models");
 
 
-const getClient = async (request, respo = response) => {
+const getClient = async (request,response) => {
   let result;
   try {
-    result = await getClientmodel(request);
+    result = await getClientmodel();
     result = result.rows;
   } catch (error) {
     result = error;
   }
-  respo.json(result);
+  response.json(result);
+}
+const getClientId = async (request,response) => {
+  let result;
+  try {
+    result = await getClientIdmodel(request.body);
+    result = result.rows[0];
+  } catch (error) {
+    result = error;
+  }
+  response.json(result);
 }
 
 const createClient = async (request, response) => {
@@ -36,7 +46,7 @@ const updateClient = (request, response) => {
     result = "1"; 
   }
   response.json({
-    "data": result
+    result
   });
 }
 
@@ -44,19 +54,21 @@ const deleteClient = (request, response) => {
   
   let result;
   try {
-    result = deleteClientmodel(request.body);
-    result = "0"; 
+    result = deleteClientmodel(request.body);   
+        
   } catch (error) {
-    result = "1"; 
+    console.error(error.stack);
   }
   response.json({
     result
   });
+  
   //Si es 0 todo ok si es 1 no elimino
 }
 
 module.exports = {
   getClient,
+  getClientId,
   createClient,
   updateClient,
   deleteClient,

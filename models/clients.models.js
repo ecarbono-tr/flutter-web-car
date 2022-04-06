@@ -1,12 +1,27 @@
 const { initDB } = require("../DB/connectDB");
 
-const getClientmodel = async (request) => {
+const getClientmodel = async () => {
     
-    const { email, pass} = request.body
+    
     let result;    
     try {
-        const client = await initDB()
+        client = await initDB()
         result = await client.query('SELECT * FROM public.clientes;');        
+
+    } catch (error) {
+        result = error;
+        
+    }
+    
+    return result;
+}
+const getClientIdmodel = async (body) => {
+    
+    const values = [body.idcliente]
+    let result;    
+    try {
+        client = await initDB()
+        result = await client.query('SELECT * FROM public.clientes where id_cliente=$1;',values);        
 
     } catch (error) {
         result = error;
@@ -45,20 +60,19 @@ const updateClientmodel = async (body) => {
 
 const deleteClientmodel = async (body) => {
     let result;
-    const values = [body.idclient]
+    const values = [body.idcliente]
     try {
         client = await initDB()        
         result = await client.query('DELETE FROM public.clientes WHERE id_cliente = $1',values);
-        result = "0";
+        result = "0";        
     } catch (error) {
-        result = "1";
-    }
-    
-    return result;
+      result = "1";
+    }      
 }
 
 module.exports = {
     getClientmodel,
+    getClientIdmodel,
     setClientmodel,
     updateClientmodel,
     deleteClientmodel

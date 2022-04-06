@@ -1,44 +1,26 @@
-const express = require("express");
-const app = express();
-const server = require("http").createServer(app);
-const { emit } = require("process");
-const db = require("./queries");
+const express = require('express')
+const app = express()
+const server = require('http').Server(app)
+const io = require('socket.io')(server)
 
-const PORT = process.env.PORT || 8080;
-const cors = require("cors");
-const io = require("socket.io")(server, {
-    cors: {
-       origin: "http://localhost:8080",
-       methods: ["GET", "POST"],
-    },
- });
- 
-app.use(cors());
+// Servimos archivos estáticos en la carpeta public
+app.use(express.static('public'));
+app.get(("/hola"),()=>{
 
-app.get("/messages", db.getClientmodel);
+});
 
-const emitMostRecentMessges = () => {
-    db.getSocketMessages()
-       .then((result) => io.emit("chat message", result))
-       .catch(console.log);
- };
+// Iniciamos una conexión con Socket.IO y con un mensaje
+io.on('connection', function (socket) {
+  console.log('Nuevo cliente conectado')
+  socket.emit('mensaje', 'Bienvenido!')
+});
 
-io.on("connection", (socket) => {
-    console.log("a user connected");
-    socket.on("chat message", (msg) => {
-       db.createSocketMessage(JSON.parse(msg))
-          .then((_) => {
-             emitMostRecentMessges();
-          })
-          .catch((err) => io.emit(err));
- });
- 
+// Enviamos el mensaje del socket con un setInterval
+setInterval(function () {
+  io.emit('mensaje', 'Hola, desde un Socket.IO de Platzi')
+}, 3000);
 
- // close event when user disconnects from app
-    socket.on("disconnect", () => {
-       console.log("user disconnected");
-    });
- });
- server.listen(PORT, () => {
-    console.log(`listening on *:${PORT}`);
- });
+// Iniciamos el servidor en el puerto 8080
+server.listen(8080, function () {
+  console.log('Servidor iniciado en http://localhost:8080')
+});

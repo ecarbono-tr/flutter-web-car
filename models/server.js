@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser')
 
 class Server {
     constructor() {
-        this.port = process.env.PORT || 8080;
+        this.port = process.env.PORT || 8484;
         this.pathUsers = "/api/users";
         this.app = express();
 
@@ -28,7 +28,7 @@ class Server {
     }
 
     listen() {
-        this.app.listen(this.port,'192.168.15.250',() => {
+        this.app.listen(this.port,'192.168.1.158',() => {
             console.log(`Express is working on port ${this.port}`);
         });
     }
