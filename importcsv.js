@@ -34,7 +34,7 @@ const insertando = async () => {
     let result;
     const datos = {};
     try {
-        const query = 'INSERT INTO public.cuentas (tipo_document,user_id,username,celular,email,rol,password,client,centro) VALUES ($1, $2, $3, $4,$5, $6, $7, $8,$9)';
+        const query = 'INSERT INTO public.usuarios (tipo_document,user_id,username,celular,email,rol,password,client,centro) VALUES ($1, $2, $3, $4,$5, $6, $7, $8,$9)';
         csvData.forEach(row => {
             client.query(query, row, (err, res) => {
                 if (err) {

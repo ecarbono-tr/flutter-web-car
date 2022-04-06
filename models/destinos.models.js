@@ -29,11 +29,11 @@ const getDestinosmodelid = async (body) => {
 }
 const setDestinosmodel = async (body) => {
     let result;
-    const values = [body.nombre, parseInt(body.estado), parseInt(body.cliente),body.nombre_cliente]
+    const values = [body.nombre, parseInt(body.estado), parseInt(body.cliente)]
     try {
         client = await initDB()
         
-        result = await client.query("INSERT INTO public.destinos (iddestino, nombre, estado, idcliente,nombre_cliente) VALUES (nextval('destinos_sequence'), $1, $2, $3, $4)", values);
+        result = await client.query("INSERT INTO public.destinos (iddestino, nombre, estado, idcliente) VALUES (nextval('destinos_sequence'), $1, $2, $3)", values);
         result = "0";
         
     } catch (error) {
@@ -44,10 +44,10 @@ const setDestinosmodel = async (body) => {
 }
 const updateDestinosmodel = async (body) => {
     let result;
-    const values = [parseInt(body.iddestinon), body.nombre, parseInt(body.estado),parseInt(body.idcliente),body.nombre_cliente]
+    const values = [parseInt(body.iddestinon), body.nombre, parseInt(body.estado),parseInt(body.idcliente)]
     try {
         client = await initDB()        
-        result = await client.query('UPDATE public.destinos SET nombre = $2, estado = $3 , idcliente = $4 , nombre_cliente = $5 WHERE iddestino = $1', values);
+        result = await client.query('UPDATE public.destinos SET nombre = $2, estado = $3 , idcliente = $4 WHERE iddestino = $1', values);
         result = "0";
     } catch (error) {
         result = "1";

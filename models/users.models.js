@@ -6,7 +6,7 @@ const getUsermodel = async (request) => {
     let result;    
     try {
         const client = await initDB()
-        result = await client.query('SELECT * FROM public.cuentas WHERE email = $1 and password= $2;',[email,pass]);        
+        result = await client.query('SELECT tipo_document,user_id,username,celular,email,password,(SELECT nombrearea FROM public.areas where idarea=centro) as centro,(SELECT nombrerol FROM public.roles where idrol=rol) as rol,(SELECT nombre_cliente FROM public.clientes where id_cliente=client) as client FROM public.usuarios WHERE email = $1 and password= $2',[email,pass]);        
 
     } catch (error) {
         result = error;
@@ -20,7 +20,7 @@ const setUsers = async (body) => {
     try {
         client = await initDB()
         const values = [body.user_id, body.username, body.password, body.email, body.tipo_document, body.celular, body.rol, body.client, body.centro]
-        result = await client.query('INSERT INTO public.cuentas (user_id, username, password, email, tipo_document, celular, rol, client, centro) VALUES ($1, $2, $3, $4, $5 ,$6,$7,$8,$9)', values);
+        result = await client.query('INSERT INTO public.usuarios (user_id, username, password, email, tipo_document, celular, rol, client, centro) VALUES ($1, $2, $3, $4, $5 ,$6,$7,$8,$9)', values);
         result = "0";
     } catch (error) {
         result = "1";
