@@ -13,6 +13,8 @@ const getBuses = async (request,response) => {
   } catch (error) {
     result = error;
   }
+  
+
   response.json(result);
 }
 

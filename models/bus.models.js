@@ -2,7 +2,6 @@ const { initDB } = require("../DB/connectDB");
 
 const getBusesmodel = async () => {
     
-    
     let result;    
     try {
         const client = await initDB()

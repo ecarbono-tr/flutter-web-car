@@ -27,6 +27,17 @@ const getDestinosId = async (request,response) => {
   response.json(result);
 }
 
+const getDestinosIds = async (request,response) => {
+  let result;
+  try {
+    result = await getDestinosmodelid(request.body);
+    result = result.rows;
+  } catch (error) {
+    result = error;
+  }
+  response.json(result);
+}
+
 const createDestinos = async (request, response) => {
   
   let result;
@@ -73,6 +84,7 @@ const deleteDestinos = (request, response) => {
 module.exports = {
   getDestinos,
   getDestinosId,
+  getDestinosIds,
   createDestinos,
   updateDestinos,
   deleteDestinos,

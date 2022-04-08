@@ -7,7 +7,9 @@ const {getUser, } = require("../controllers/users.controllers");
         deleteClient,
         getClientId,} = require("../controllers/clients.controllers");
 const { updateBuses, createBuses, deleteBuses, getBuses } = require("../controllers/bus.controllers");
-const { getDestinos, deleteDestinos, createDestinos, updateDestinos, getDestinosId } = require("../controllers/destinos.controllers");
+const { getDestinos, deleteDestinos, createDestinos, updateDestinos, getDestinosId, getDestinosIds } = require("../controllers/destinos.controllers");
+const { createViaje } = require("../controllers/viaje.controllers");
+
 
         
 //Api cliente
@@ -27,10 +29,14 @@ router.post('/updateBuses', updateBuses);
 //Api Destinos
 router.get('/getDestinos', getDestinos);
 router.post('/getDestinosid', getDestinosId);
+router.post('/getDestinosids', getDestinosIds);
 router.post('/deleteDestinos', deleteDestinos);
 router.post('/createDestinos', createDestinos);
 router.post('/updateDestinos', updateDestinos);
 
+//Api Viajes
+
+router.post('/createViaje', createViaje);
 
 
 // router.post('/createNewUser', (req, res) => {
