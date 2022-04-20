@@ -1,17 +1,9 @@
 const { initDB } = require("../DB/connectDB");
 
-const getBusesmodel = async () => {
-    
-    let result;    
-    try {
-        const client = await initDB()
-        result = await client.query('SELECT * FROM public.buses b order by b.estado desc;');        
-
-    } catch (error) {
-        result = error;
-        
-    }
-    
+const getBusesmodel = async () => {    
+    const client = await initDB()
+    const result = await client.query('SELECT * FROM public.buses b order by b.estado desc;');
+    client.end();
     return result;
 }
 const setBusesmodel = async (body) => {

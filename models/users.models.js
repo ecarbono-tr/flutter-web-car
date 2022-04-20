@@ -1,17 +1,22 @@
 const { initDB } = require("../DB/connectDB");
 
+
+
 const getUsermodel = async (request) => {
     
     const { email, pass} = request.body
     let result;    
-    try {
-        const client = await initDB()
-        result = await client.query('SELECT tipo_document,user_id,username,celular,email,password,(SELECT nombrearea FROM public.areas where idarea=centro) as centro,(SELECT nombrerol FROM public.roles where idrol=rol) as rol,(SELECT nombre_cliente FROM public.clientes where id_cliente=client) as client FROM public.usuarios WHERE email = $1 and password= $2',[email,pass]);        
-
-    } catch (error) {
-        result = error;
-        
-    }
+    const client = await initDB(); 
+    result = await client.query('SELECT tipo_document,user_id,username,celular,email,password,(SELECT nombrearea FROM public.areas where idarea=centro) as centro,(SELECT nombrerol FROM public.roles where idrol=rol) as rol,(SELECT nombre_cliente FROM public.clientes where id_cliente=client) as client FROM public.usuarios WHERE email = $1 and password= $2',[email,pass]);        
+    client.end(); 
+    
+    return result;
+}
+const getUserIdmodel = async (request) => {      
+    
+    const client = await initDB()
+    const result = await client.query('select * from public.usuarios u where u.user_id = $1',[request.body.idcliente]);
+    client.end(); 
     
     return result;
 }
@@ -31,5 +36,5 @@ const setUsers = async (body) => {
 
 module.exports = {
     getUsermodel,
-    setUsers
+    setUsers,getUserIdmodel
 }

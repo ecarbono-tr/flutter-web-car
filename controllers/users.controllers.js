@@ -1,11 +1,21 @@
 const {response} = require("express");
-const { getUsermodel, setUsers } = require("../models/users.models");
+const { getUsermodel, setUsers, getUserIdmodel } = require("../models/users.models");
 
 
 const getUser = async (request, respo = response) => {
   let result;
   try {
     result = await getUsermodel(request);
+    result = result.rows[0];
+  } catch (error) {
+    result = error;
+  }
+  respo.json(result);
+}
+const getUserId = async (request, respo = response) => {
+  let result;
+  try {
+    result = await getUserIdmodel(request);
     result = result.rows[0];
   } catch (error) {
     result = error;
@@ -56,6 +66,7 @@ const deleteUser = (request, response) => {
 }
 module.exports = {
   getUser,
+  getUserId,
   createUser,
   updateUser,
   deleteUser,
