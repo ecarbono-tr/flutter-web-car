@@ -1,26 +1,11 @@
 const { initDB } = require("../DB/connectDB");
 
-const aaaa = async (request) => {
-    
-    const body = [parseInt(request.idconductor) , request.idvehiculo,parseInt(request.idruta),request.fechainicio,request.estado]
-    let result;
-    let resultvalidator;  
-    try {
-        const client = await initDB()
-        resultvalidator = await selectViajemodel(request);
-        if(resultvalidator.rows==0){
-            result = await client.query("INSERT INTO public.viajes (id_viaje, id_conductor, id_vehiculo, id_ruta, fecha_inicio, fecha_fin, estado) VALUES (nextval('viaje_sequence'), $1, $2, $3, $4, null, $5)", body);      
-            result="0";
-        }else{            
-            result="1";
-        }
-        
-
-    } catch (error) {
-        result = error;
-        
-    }
-    
+const selectViajesmodel = async (request) => {    
+    const body = [parseInt(request.idconductor)]
+  
+    const client = await initDB()
+    const result = await client.query("SELECT V.ID_VIAJE,V.ID_CONDUCTOR,V.ID_VEHICULO,V.ID_RUTA,V.ESTADO,V.FECHA_INICIO,V.FECHA_FIN,P.NOMBRE,S.ID_CLIENTE,S.NOMBRE_CLIENTE,SV.descripcion,SV.orden FROM PUBLIC.VIAJES V INNER JOIN DESTINOS P ON P.IDDESTINO = V.ID_RUTA INNER JOIN CLIENTES S ON S.ID_CLIENTE = P.IDCLIENTE INNER JOIN SEGUIMIENTO_VIAJE SV ON SV.ID_VIAJE = V.ID_VIAJE WHERE V.ID_CONDUCTOR = $1 AND SV.orden = (SELECT MAX(ORDEN) from SEGUIMIENTO_VIAJE h where h.ID_VIAJE = V.ID_VIAJE);", body);              
+    client.end();
     return result;
 }
 
@@ -28,7 +13,7 @@ const selectViajemodel = async (request) => {
     const body = [parseInt(request.idconductor)]
   
     const client = await initDB()
-    const result = await client.query("SELECT V.ID_VIAJE,V.ID_CONDUCTOR,V.ID_VEHICULO,V.ID_RUTA,V.ESTADO,V.FECHA_INICIO,V.FECHA_FIN,P.NOMBRE,S.ID_CLIENTE,S.NOMBRE_CLIENTE,SV.descripcion,SV.orden FROM PUBLIC.VIAJES V INNER JOIN DESTINOS P ON P.IDDESTINO = V.ID_RUTA INNER JOIN CLIENTES S ON S.ID_CLIENTE = P.IDCLIENTE INNER JOIN SEGUIMIENTO_VIAJE SV ON SV.ID_VIAJE = V.ID_VIAJE WHERE V.ID_CONDUCTOR = $1 AND V.ESTADO = 'I';", body);              
+    const result = await client.query("SELECT V.ID_VIAJE,V.ID_CONDUCTOR,V.ID_VEHICULO,V.ID_RUTA,V.ESTADO,V.FECHA_INICIO,V.FECHA_FIN,P.NOMBRE,S.ID_CLIENTE,S.NOMBRE_CLIENTE,SV.descripcion,SV.orden FROM PUBLIC.VIAJES V INNER JOIN DESTINOS P ON P.IDDESTINO = V.ID_RUTA INNER JOIN CLIENTES S ON S.ID_CLIENTE = P.IDCLIENTE INNER JOIN SEGUIMIENTO_VIAJE SV ON SV.ID_VIAJE = V.ID_VIAJE WHERE V.ID_CONDUCTOR = $1 AND V.ESTADO = 'I' AND SV.orden = (SELECT MAX(ORDEN) from SEGUIMIENTO_VIAJE h where h.ID_VIAJE = V.ID_VIAJE);", body);              
     client.end();
     return result;
 }
@@ -62,7 +47,7 @@ const setseguimientomodel = async (request, response) => {
     const body = [parseInt(request.id_viaje),request.descripcion, request.orden, request.fecha_seguimiento]
         
     const client = await initDB()
-    const result = await client.query("INSERT INTO public.seguimiento_viaje(id_viaje, descripcion, orden, fecha_seguimiento) VALUES ($1, $2, $3, $4)",body);      
+    const result = await client.query("CALL public.sitpr_seguimientoviaje($1, $2, $3, $4, '');",body);
     client.end();
     
     
@@ -99,4 +84,4 @@ const getUsuarioViaje = async (request, response) => {
     
     return result;
 }
-module.exports = {addViajemodel,selectViajemodel,seguimientomodel,setseguimientomodel,getUsuarioViaje,setdetalleviajemodel,deletedetalleviajemodel}
+module.exports = {addViajemodel,selectViajesmodel,selectViajemodel,seguimientomodel,setseguimientomodel,getUsuarioViaje,setdetalleviajemodel,deletedetalleviajemodel}
