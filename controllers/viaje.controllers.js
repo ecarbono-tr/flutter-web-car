@@ -1,5 +1,5 @@
 const {response} = require("express");
-const { addViajemodel, selectViajemodel, seguimientomodel, setseguimientomodel, getUsuarioViaje, setdetalleviajemodel, deletedetalleviajemodel, selectViajesmodel } = require("../models/viaje.models");
+const { addViajemodel, selectViajemodel, seguimientomodel, setseguimientomodel, getUsuarioViaje, setdetalleviajemodel, deletedetalleviajemodel, selectViajesmodel, selectViajeidviajemodel } = require("../models/viaje.models");
 
 const createViaje = async (request, response) => {
   
@@ -32,6 +32,23 @@ const createViaje = async (request, response) => {
     );
     
   }
+  const getViajeidviajeController = async (request, response) => {
+  
+    let result;
+    try {
+      result = await selectViajeidviajemodel(request.body);  
+      result = result.rows[0];
+    } catch (error) {
+      result = "1"; 
+    }
+
+    response.json(
+      result
+    );
+    
+  }
+
+  
   const getViajesController = async (request, response) => {
   
     let result;
@@ -132,5 +149,5 @@ const createViaje = async (request, response) => {
 module.exports = {   
     createViaje,
     getViajeController,getViajesController,
-    SeguimientoViajeController,setSeguimientoViajeController,getUsuarioViajeController,createViajeDetalle,eliminarViajeDetalle
+    SeguimientoViajeController,setSeguimientoViajeController,getUsuarioViajeController,createViajeDetalle,eliminarViajeDetalle,getViajeidviajeController
   }

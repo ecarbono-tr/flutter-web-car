@@ -8,7 +8,7 @@ const {getUser, getUserId, } = require("../controllers/users.controllers");
         getClientId,} = require("../controllers/clients.controllers");
 const { updateBuses, createBuses, deleteBuses, getBuses } = require("../controllers/bus.controllers");
 const { getDestinos, deleteDestinos, createDestinos, updateDestinos, getDestinosId, getDestinosIds } = require("../controllers/destinos.controllers");
-const { createViaje, getViajeController, SeguimientoViajeController, setSeguimientoViajeController, getUsuarioViajeController, createViajeDetalle, eliminarViajeDetalle, getViajesController } = require("../controllers/viaje.controllers");
+const { createViaje, getViajeController, SeguimientoViajeController, setSeguimientoViajeController, getUsuarioViajeController, createViajeDetalle, eliminarViajeDetalle, getViajesController, getViajeidviajeController } = require("../controllers/viaje.controllers");
 
 
 //User
@@ -42,6 +42,7 @@ router.post('/updateDestinos', updateDestinos);
 //Api Viajes
 
 router.post('/selectViaje', getViajeController);
+router.post('/selectViajeid', getViajeidviajeController);
 router.post('/selectViajes', getViajesController);
 router.post('/createSeguimiento', setSeguimientoViajeController);
 router.post('/createDetalle', createViajeDetalle);

@@ -1,15 +1,10 @@
 const { initDB } = require("../DB/connectDB");
 
 const getDestinosmodel = async () => {
-    let result;    
-    try {
-        const client = await initDB()
-        result = await client.query('SELECT *,(Select c.nombre_cliente from public.clientes c where c.id_cliente = d.idcliente) as nombre_cliente FROM public.destinos d;');        
-
-    } catch (error) {
-        result = error;
-        
-    }
+    
+    const client = await initDB()
+    const result = await client.query('SELECT d.iddestino, d.nombre, d.estado, d.idcliente,S.nombre_cliente FROM public.destinos d INNER JOIN CLIENTES S ON S.ID_CLIENTE = d.idcliente;');        
+    client.end();
     
     return result;
 }

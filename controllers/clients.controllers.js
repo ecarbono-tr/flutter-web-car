@@ -59,11 +59,9 @@ const deleteClient = (request, response) => {
   } catch (error) {
     console.error(error.stack);
   }
-  response.json({
+  response.json(
     result
-  });
-  
-  //Si es 0 todo ok si es 1 no elimino
+  );  
 }
 
 module.exports = {

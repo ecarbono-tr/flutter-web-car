@@ -18,6 +18,15 @@ const selectViajemodel = async (request) => {
     return result;
 }
 
+const selectViajeidviajemodel = async (request) => {    
+    const body = [parseInt(request.idviaje)]
+  
+    const client = await initDB()
+    const result = await client.query("SELECT V.ID_VIAJE,V.ID_CONDUCTOR,V.ID_VEHICULO,V.ID_RUTA,V.ESTADO,V.FECHA_INICIO,V.FECHA_FIN,P.NOMBRE,S.ID_CLIENTE,S.NOMBRE_CLIENTE,SV.descripcion,SV.orden FROM PUBLIC.VIAJES V INNER JOIN DESTINOS P ON P.IDDESTINO = V.ID_RUTA INNER JOIN CLIENTES S ON S.ID_CLIENTE = P.IDCLIENTE INNER JOIN SEGUIMIENTO_VIAJE SV ON SV.ID_VIAJE = V.ID_VIAJE WHERE V.id_viaje = $1 AND SV.orden = (SELECT MAX(ORDEN) from SEGUIMIENTO_VIAJE h where h.ID_VIAJE = V.ID_VIAJE);", body);              
+    client.end();
+    return result;
+}
+
 const addViajemodel = async (request, response) => {
     const body = [parseInt(request.idconductor) , request.idvehiculo,parseInt(request.idruta),request.fechainicio,request.estado]
     
@@ -84,4 +93,4 @@ const getUsuarioViaje = async (request, response) => {
     
     return result;
 }
-module.exports = {addViajemodel,selectViajesmodel,selectViajemodel,seguimientomodel,setseguimientomodel,getUsuarioViaje,setdetalleviajemodel,deletedetalleviajemodel}
+module.exports = {addViajemodel,selectViajesmodel,selectViajemodel,seguimientomodel,setseguimientomodel,getUsuarioViaje,setdetalleviajemodel,deletedetalleviajemodel,selectViajeidviajemodel}
