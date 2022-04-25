@@ -3,8 +3,8 @@ const { initDB } = require("../DB/connectDB");
 const selectViajesmodel = async (request) => {    
     const body = [parseInt(request.idconductor)]
   
-    const client = await initDB()
-    const result = await client.query("SELECT V.ID_VIAJE,V.ID_CONDUCTOR,V.ID_VEHICULO,V.ID_RUTA,V.ESTADO,V.FECHA_INICIO,V.FECHA_FIN,P.NOMBRE,S.ID_CLIENTE,S.NOMBRE_CLIENTE,SV.descripcion,SV.orden FROM PUBLIC.VIAJES V INNER JOIN DESTINOS P ON P.IDDESTINO = V.ID_RUTA INNER JOIN CLIENTES S ON S.ID_CLIENTE = P.IDCLIENTE INNER JOIN SEGUIMIENTO_VIAJE SV ON SV.ID_VIAJE = V.ID_VIAJE WHERE V.ID_CONDUCTOR = $1 AND SV.orden = (SELECT MAX(ORDEN) from SEGUIMIENTO_VIAJE h where h.ID_VIAJE = V.ID_VIAJE);", body);              
+    const client = await initDB();
+    const result = await client.query("SELECT V.ID_VIAJE,V.ID_CONDUCTOR,V.ID_VEHICULO,V.ID_RUTA,V.ESTADO,TO_CHAR(V.fecha_inicio, 'YYYY/MM/DD hh12:mi:ss am') as fecha_inicio,TO_CHAR(V.FECHA_FIN, 'YYYY/MM/DD hh12:mi:ss am') as FECHA_FIN,P.NOMBRE,S.ID_CLIENTE,S.NOMBRE_CLIENTE,SV.descripcion,SV.orden,concat_ws(' '::text, H.DESCRIPCION, H.meridiem) AS horario FROM PUBLIC.VIAJES V INNER JOIN DESTINOS P ON P.IDDESTINO = V.ID_RUTA INNER JOIN CLIENTES S ON S.ID_CLIENTE = P.IDCLIENTE INNER JOIN SEGUIMIENTO_VIAJE SV ON SV.ID_VIAJE = V.ID_VIAJE INNER JOIN ENTRADA_SALIDAS H ON H.cod_tabla = V.id_entrada_salida WHERE V.ID_CONDUCTOR = $1 AND SV.orden = (SELECT MAX(ORDEN) from SEGUIMIENTO_VIAJE h where h.ID_VIAJE = V.ID_VIAJE);", body);              
     client.end();
     return result;
 }
@@ -28,18 +28,12 @@ const selectViajeidviajemodel = async (request) => {
 }
 
 const addViajemodel = async (request, response) => {
-    const body = [parseInt(request.idconductor) , request.idvehiculo,parseInt(request.idruta),request.fechainicio,request.estado]
+    const body = [parseInt(request.idconductor) , request.idvehiculo,parseInt(request.idruta),request.fechainicio,request.estado,parseInt(request.horario)]
     
-    let result;    
-    try {
-        const client = await initDB()
-        result = await client.query("CALL public.sitpr_crearviaje($1, $2, $3, $4, $5, '');",body);      
-        result = result.rows[0]["p_estadoviaje"];
-    } catch (error) {
-        result = error;
-        
-    }
+    const client = await initDB()
+    const result = await client.query("CALL public.sitpr_crearviaje($1, $2, $3, $4, $5, $6,'');",body);      
     
+    client.end();
     
     return result;
 }

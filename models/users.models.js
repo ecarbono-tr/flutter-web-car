@@ -7,7 +7,7 @@ const getUsermodel = async (request) => {
     const { email, pass} = request.body
     let result;    
     const client = await initDB(); 
-    result = await client.query('SELECT tipo_document,user_id,username,celular,email,password,(SELECT nombrearea FROM public.areas where idarea=centro) as centro,(SELECT nombrerol FROM public.roles where idrol=rol) as rol,(SELECT nombre_cliente FROM public.clientes where id_cliente=client) as client FROM public.usuarios WHERE email = $1 and password= $2',[email,pass]);        
+    result = await client.query('SELECT tipo_document,user_id,username,celular,email,password,client,ROL.nombrerol as rol,AR.nombrearea as centro,CL.nombre_cliente as cliente FROM public.usuarios US JOIN roles ROL ON ROL.idrol = US.rol JOIN areas AR ON AR.idarea = US.centro JOIN clientes CL ON CL.id_cliente = US.client WHERE email = $1 and password= $2',[email,pass]);        
     client.end(); 
     
     return result;

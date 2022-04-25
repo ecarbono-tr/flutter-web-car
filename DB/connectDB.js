@@ -2,7 +2,7 @@ const { Client } = require('pg');
 
 const initDB = async () => {
   
-  const conn ="postgres://movilizat:movilizat@127.0.0.1:5432/postgres";
+  const conn ="movilizat://movilizat:movilizat@127.0.0.1:5432/movilizat";
   const client = new Client({
     connectionString: conn,
     ssl: false 

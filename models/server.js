@@ -28,7 +28,7 @@ class Server {
     }
 
     listen() {
-        this.app.listen(this.port,'192.168.3.151',() => {
+        this.app.listen(this.port,'192.168.1.145',() => {
             console.log(`Express is working on port ${this.port}`);
         });
     }

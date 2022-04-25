@@ -6,7 +6,7 @@ const createViaje = async (request, response) => {
     let result;
     try {
       result = await addViajemodel(request.body);  
-      console.log(result);
+      result = result.rows[0]["p_estadoviaje"]
     } catch (error) {
       result = "1"; 
     }

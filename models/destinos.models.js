@@ -10,59 +10,38 @@ const getDestinosmodel = async () => {
 }
 const getDestinosmodelid = async (body) => {
     const values = [body.idcliente]
-    let result;    
-    try {
-        const client = await initDB()
-        result = await client.query('SELECT * FROM public.destinos where idcliente=$1;', values);        
-
-    } catch (error) {
-        result = error;
-        
-    }
-    
+    const client = await initDB()
+    const result = await client.query('SELECT * FROM public.destinos where idcliente=$1;', values);        
+    client.end();
     return result;
 }
 const setDestinosmodel = async (body) => {
-    let result;
+    
     const values = [body.nombre, parseInt(body.estado), parseInt(body.cliente)]
-    try {
-        client = await initDB()
+    const client = await initDB()
         
-        result = await client.query("INSERT INTO public.destinos (iddestino, nombre, estado, idcliente) VALUES (nextval('destinos_sequence'), $1, $2, $3)", values);
-        result = "0";
-        
-    } catch (error) {
-        result = "1";
-    }
-    console.log(result);
+    const result = await client.query("INSERT INTO public.destinos (iddestino, nombre, estado, idcliente) VALUES (nextval('destinos_sequence'), $1, $2, $3)", values);
+    result = "0";
+    client.end();
+    
     return result;
 }
 const updateDestinosmodel = async (body) => {
-    let result;
     const values = [parseInt(body.iddestinon), body.nombre, parseInt(body.estado),parseInt(body.idcliente)]
-    try {
-        client = await initDB()        
-        result = await client.query('UPDATE public.destinos SET nombre = $2, estado = $3 , idcliente = $4 WHERE iddestino = $1', values);
-        result = "0";
-    } catch (error) {
-        result = "1";
-        console.log(error);
-    }
-    
+    const client = await initDB()        
+    const result = await client.query('UPDATE public.destinos SET nombre = $2, estado = $3 , idcliente = $4 WHERE iddestino = $1', values);
+    result = "0";
+    client.end();
     return result;
 }
 
 const deleteDestinosmodel = async (body) => {
-    let result;
-    const values = [body.iddestino]
-    try {
-        client = await initDB()        
-        result = await client.query('DELETE FROM public.destinos WHERE iddestino = $1',values);
-        result = "0";
-    } catch (error) {
-        result = "1";
-    }
     
+    const values = [body.iddestino]
+    const client = await initDB()        
+    const result = await client.query('DELETE FROM public.destinos WHERE iddestino = $1',values);
+    result = "0";
+    client.end();
     return result;
 }
 
