@@ -1,11 +1,13 @@
 const { Router } = require("express");
 const router = new Router();
-const {getUser, getUserId, } = require("../controllers/users.controllers");
-    const { getClient,
-        createClient,
-        updateClient,
-        deleteClient,
-        getClientId,} = require("../controllers/clients.controllers");
+const { getUser, getUserId, } = require("../controllers/users.controllers");
+const {
+    getClient,
+    createClient,
+    updateClient,
+    deleteClient,
+    getClientId,
+} = require("../controllers/clients.controllers");
 const { updateBuses, createBuses, deleteBuses, getBuses } = require("../controllers/bus.controllers");
 const { getDestinos, deleteDestinos, createDestinos, updateDestinos, getDestinosId, getDestinosIds } = require("../controllers/destinos.controllers");
 const { createViaje, getViajeController, SeguimientoViajeController, setSeguimientoViajeController, getUsuarioViajeController, createViajeDetalle, eliminarViajeDetalle, getViajesController, getViajeidviajeController } = require("../controllers/viaje.controllers");
@@ -54,7 +56,11 @@ router.post('/deleteDetalle', eliminarViajeDetalle);
 router.post('/createViaje', createViaje);
 router.post('/usuariosViaje', getUsuarioViajeController);
 
+//reportes
 router.post('/reportemes', reportemes);
+router.post('/reportemes', reportemes);
+
+
 
 router.get('/pmam', pmamcontroller);
 // router.post('/createNewUser', (req, res) => {
@@ -62,7 +68,7 @@ router.get('/pmam', pmamcontroller);
 //     res.json({
 //         "token": token
 //       });
-    
+
 //   });
 // function generateAccessToken(username) {
 //     return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
@@ -72,5 +78,5 @@ router.get('/pmam', pmamcontroller);
 //     res.json(valores);
 //   });
 
-   
+
 module.exports = router;
