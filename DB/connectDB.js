@@ -9,7 +9,7 @@ const initDB = async () => {
     connectionString: conn,
     //ssl: false 
     ssl: {
-      rejectUnauthorized: false
+      rejectUnauthorized: true
     }
   });
 
