@@ -8,9 +8,9 @@ const initDB = async () => {
   const client = new Client({
     connectionString: conn,
     //ssl: true
-    // ssl: {
-    //   rejectUnauthorized: true
-    // }
+     ssl: {
+       rejectUnauthorized: false
+     }
   });
 
   await client.connect();
