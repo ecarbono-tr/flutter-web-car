@@ -7,4 +7,11 @@ const getmesreport = async (request) => {
     client.end();
     return result;
 }
-module.exports = {getmesreport};
+const getyearreportdestino = async (request) => {    
+    const body = [request.year,parseInt(request.iddestino)];
+    const client = await initDB();
+    const result = await client.query("CALL public.sitpr_gnrar_report_anual_dstno($1, $2, '');",body);
+    client.end();
+    return result;
+}
+module.exports = {getmesreport,getyearreportdestino};

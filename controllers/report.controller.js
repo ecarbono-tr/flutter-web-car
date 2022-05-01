@@ -1,5 +1,5 @@
 const {response} = require("express");
-const { getmesreport } = require("../models/report.model");
+const { getmesreport, getyearreportdestino } = require("../models/report.model");
 
 const reportemes = async (request, respo = response) => {
     let result;
@@ -11,4 +11,14 @@ const reportemes = async (request, respo = response) => {
     }
     respo.json(result);
   }
-module.exports={reportemes}
+  const reporteyeardestino = async (request, respo = response) => {
+    let result;
+    try {
+      result = await getyearreportdestino(request.body);
+      result = result.rows;
+    } catch (error) {
+      result = error;
+    }
+    respo.json(result);
+  }
+module.exports={reportemes,reporteyeardestino}

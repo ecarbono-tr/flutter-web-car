@@ -9,7 +9,7 @@ const {getUser, getUserId, } = require("../controllers/users.controllers");
 const { updateBuses, createBuses, deleteBuses, getBuses } = require("../controllers/bus.controllers");
 const { getDestinos, deleteDestinos, createDestinos, updateDestinos, getDestinosId, getDestinosIds } = require("../controllers/destinos.controllers");
 const { createViaje, getViajeController, SeguimientoViajeController, setSeguimientoViajeController, getUsuarioViajeController, createViajeDetalle, eliminarViajeDetalle, getViajesController, getViajeidviajeController } = require("../controllers/viaje.controllers");
-const { reportemes } = require("../controllers/report.controller");
+const { reportemes, reporteyeardestino } = require("../controllers/report.controller");
 const { pmamcontroller } = require("../controllers/pmam.controller");
 
 
@@ -54,7 +54,9 @@ router.post('/deleteDetalle', eliminarViajeDetalle);
 router.post('/createViaje', createViaje);
 router.post('/usuariosViaje', getUsuarioViajeController);
 
+//Reportes
 router.post('/reportemes', reportemes);
+router.post('/reporteyeardestino', reporteyeardestino);
 
 router.get('/pmam', pmamcontroller);
 // router.post('/createNewUser', (req, res) => {
