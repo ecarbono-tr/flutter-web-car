@@ -19,6 +19,6 @@ const reportemes = async (request, respo = response) => {
     } catch (error) {
       result = error;
     }
-    respo.json(result['p_result']);
+    respo.json(result.rows['p_result']);
   }
 module.exports={reportemes,reporteyeardestino}
