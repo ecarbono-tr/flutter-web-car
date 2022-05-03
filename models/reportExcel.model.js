@@ -8,17 +8,17 @@ const getmesreport = async(request) => {
         request.mes, request.year
     ];
     const client = await initDB();
-    const result = await client.query(`SELECT ID_VIAJE,
-                                              USERNAME,
-                                              USER_ID,
-                                              CELULAR,
-                                              HORARIO,
-                                              NOMBRE_RUTA,
-                                              FECHA_INICIO,
-                                              FECHA_FIN 
+    const result = await client.query(`SELECT ID_VIAJE as idviaje,
+                                              USERNAME as username,
+                                              USER_ID as userid,
+                                              CELULAR as cel,
+                                              HORARIO as horario,
+                                              NOMBRE_RUTA as nombreruta,
+                                              FECHA_INICIO as fechaini,
+                                              FECHA_FIN as fechafin
                                       FROM PUBLIC.REPORTE_VIAJE_MES RVM 
                                       WHERE RVM.IDCLIENTE = $1 AND 
-                                            RVM.COD_TABLA = $2 AND 
+                                            RVM.COD_HORARIO = $2 AND 
                                             RVM.IDDESTINO = $3 AND 
                                             TO_CHAR(TO_DATE(RVM.FECHA_INICIO,'DD/MM/YYYY'),'MM') = $4 
                                             AND TO_CHAR(TO_DATE(RVM.FECHA_INICIO,'DD/MM/YYYY'),'YYYY') = $5;`, body);
@@ -26,14 +26,15 @@ const getmesreport = async(request) => {
     return result;
 }
 
-const getReportAnualDestinos = async(vigencia = "2022", destino = "100") => {
+const getReportAnualDestinos = async(vigencia = "2022", destino = "100",idcliente=0) => {
     let result;
     try {
         const client = await initDB();
         result = await client.query(`CALL public.sitpr_gnrar_report_anual_dstno(
             $1, 
-            $2, 
-            '{}');`, [vigencia, destino]);
+            $2,
+            $3,
+            '{}');`, [vigencia, destino,idcliente]);
 
         client.end();
     } catch (error) {

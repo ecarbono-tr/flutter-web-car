@@ -37,10 +37,9 @@ const updateDestinosmodel = async (body) => {
 
 const deleteDestinosmodel = async (body) => {
     
-    const values = [body.iddestino]
+    const values = [body.iddestino,parseInt(body.estado)]
     const client = await initDB()        
-    const result = await client.query('DELETE FROM public.destinos WHERE iddestino = $1',values);
-    result = "0";
+    const result = await client.query('UPDATE public.destinos SET estado = $2 WHERE iddestino = $1',values);    
     client.end();
     return result;
 }

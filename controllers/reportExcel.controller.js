@@ -14,9 +14,9 @@ const reporteMes = async(request, respo = response) => {
 
 const getReportDestinosAnual = async(request, respo = response) => {
     let result;
-    const { vigencia, destino } = request.body;
+    const { vigencia, destino,idcliente} = request.body;
     try {
-        result = await getReportAnualDestinos(vigencia, destino);
+        result = await getReportAnualDestinos(vigencia, destino,idcliente);
         if (!(result.rows.length > 0)) {
             return respo.json({
                 code: 1,
