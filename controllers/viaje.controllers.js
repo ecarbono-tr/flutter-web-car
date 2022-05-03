@@ -1,153 +1,159 @@
-const {response} = require("express");
+const { response } = require("express");
 const { addViajemodel, selectViajemodel, seguimientomodel, setseguimientomodel, getUsuarioViaje, setdetalleviajemodel, deletedetalleviajemodel, selectViajesmodel, selectViajeidviajemodel } = require("../models/viaje.models");
 
-const createViaje = async (request, response) => {
-  
+const createViaje = async(request, response) => {
+
     let result;
     try {
-      result = await addViajemodel(request.body);  
-      result = result.rows[0]["p_estadoviaje"]
+        result = await addViajemodel(request.body);
+        result = result.rows[0]["p_estadoviaje"]
     } catch (error) {
-      result = "1"; 
+        result = "1";
     }
 
     response.json(
-      result
+        result
     );
-    
-  }
 
-  const getViajeController = async (request, response) => {
-  
+}
+
+const getViajeController = async(request, response) => {
+
     let result;
     try {
-      result = await selectViajemodel(request.body);  
-      result = result.rows[0];
+        result = await selectViajemodel(request.body);
+        result = result.rows[0];
     } catch (error) {
-      result = "1"; 
+        result = "1";
     }
 
     response.json(
-      result
+        result
     );
-    
-  }
-  const getViajeidviajeController = async (request, response) => {
-  
+
+}
+const getViajeidviajeController = async(request, response) => {
+
     let result;
     try {
-      result = await selectViajeidviajemodel(request.body);  
-      result = result.rows[0];
+        result = await selectViajeidviajemodel(request.body);
+        result = result.rows[0];
     } catch (error) {
-      result = "1"; 
+        result = "1";
     }
 
     response.json(
-      result
+        result
     );
-    
-  }
 
-  
-  const getViajesController = async (request, response) => {
-  
+}
+
+
+const getViajesController = async(request, response) => {
+
     let result;
     try {
-      result = await selectViajesmodel(request.body);  
-      result = result.rows;
+        result = await selectViajesmodel(request.body);
+        result = result.rows;
     } catch (error) {
-      result = "1"; 
+        result = "1";
     }
 
     response.json(
-      result
+        result
     );
-    
-  }
+
+}
 
 
-  const SeguimientoViajeController = async (request, response) => {
-  
+const SeguimientoViajeController = async(request, response) => {
+
     let result;
     try {
-      result = await seguimientomodel(request.body);  
-      result = result.rows[0];
+        result = await seguimientomodel(request.body);
+        result = result.rows[0];
     } catch (error) {
-      result = "1"; 
+        result = "1";
     }
 
     response.json(
-      result
+        result
     );
-    
-  }
 
-  const setSeguimientoViajeController = async (request, response) => {
-  
+}
+
+const setSeguimientoViajeController = async(request, response) => {
+
     let result;
     try {
-      result = await setseguimientomodel(request.body);        
+        result = await setseguimientomodel(request.body);
     } catch (error) {
-      result = "1"; 
+        result = "1";
     }
 
     response.json(
-      result.rows[0]["p_result"]
+        result.rows[0]["p_result"]
     );
-    
-  }
 
-  const getUsuarioViajeController = async (request, response) => {
-  
+}
+
+const getUsuarioViajeController = async(request, response) => {
+
     let result;
     try {
-      result = await getUsuarioViaje(request.body);  
-      result = result.rows;
+        result = await getUsuarioViaje(request.body);
+        result = result.rows;
     } catch (error) {
-      result = "1"; 
+        result = "1";
     }
 
     response.json(
-      result
+        result
     );
-    
-  }
 
-  const createViajeDetalle = async (request, response) => {
-  
+}
+
+const createViajeDetalle = async(request, response) => {
+
     let result;
     try {
-      result = await setdetalleviajemodel(request.body);  
-      result=result.rows[0]['p_result']
+        result = await setdetalleviajemodel(request.body);
+        result = result.rows[0]['p_result']
     } catch (error) {
-      result = "1"; 
+        result = "1";
     }
 
     response.json(
-      result
+        result
     );
-    
-  }
 
-  const eliminarViajeDetalle = async (request, response) => {
-  
+}
+
+const eliminarViajeDetalle = async(request, response) => {
+
     let result;
     try {
-      result = await deletedetalleviajemodel(request.body);  
-      result=result.rows[0]['p_result']
+        result = await deletedetalleviajemodel(request.body);
+        result = result.rows[0]['p_result']
     } catch (error) {
-      result = "1"; 
+        result = "1";
     }
 
     response.json(
-      result
+        result
     );
-    
-  }
 
-  
-module.exports = {   
+}
+
+
+module.exports = {
     createViaje,
-    getViajeController,getViajesController,
-    SeguimientoViajeController,setSeguimientoViajeController,getUsuarioViajeController,createViajeDetalle,eliminarViajeDetalle,getViajeidviajeController
-  }
+    getViajeController,
+    getViajesController,
+    SeguimientoViajeController,
+    setSeguimientoViajeController,
+    getUsuarioViajeController,
+    createViajeDetalle,
+    eliminarViajeDetalle,
+    getViajeidviajeController
+}
