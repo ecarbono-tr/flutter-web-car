@@ -13,7 +13,7 @@ const getmesreport = async(request) => {
                                               USER_ID,
                                               CELULAR,
                                               HORARIO,
-                                              NOMBRE,
+                                              NOMBRE_RUTA,
                                               FECHA_INICIO,
                                               FECHA_FIN 
                                       FROM PUBLIC.REPORTE_VIAJE_MES RVM 
