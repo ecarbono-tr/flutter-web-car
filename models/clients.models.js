@@ -20,7 +20,7 @@ const setClientmodel = async (body) => {
    
     const values = [body.idcliente, body.nombre, body.telefono]
     const client = await initDB();        
-    const result = await client.query('INSERT INTO public.clientes (id_cliente, nombre_cliente, telefono_cliente) VALUES ($1, $2, $3)', values);
+    const result = await client.query('INSERT INTO public.clientes (id_cliente, nombre_cliente, telefono_cliente, estado_cliente) VALUES ($1, $2, $3 , 1)', values);
     client.end();
 
     return result;
