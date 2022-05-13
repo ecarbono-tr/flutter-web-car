@@ -1,26 +1,22 @@
-const express = require('express')
-const app = express()
-const server = require('http').Server(app)
-const io = require('socket.io')(server)
+const WebSocket = require("ws");
+// start the server and specify the port number
+const port = 8080;
+const wss = new WebSocket.Server({ port: port });
+console.log(`[WebSocket] Starting WebSocket server on:${port}`);
 
-// Servimos archivos estáticos en la carpeta public
-app.use(express.static('public'));
-app.get(("/hola"),()=>{
+wss.on("connection", (ws, request) => {
+  const clientIp = request.remoteAddress;
+  console.log(`[WebSocket] Client with IP ${clientIp} has connected`);
+  ws.send("Thanks for connecting to this nodejs websocket server");
 
+  // Broadcast aka send messages to all connected clients
+  ws.on("message", (message) => {
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(message);
+      }
+    });
+    console.log(`[WebSocket] Message ${message} was received`);
+  });
 });
 
-// Iniciamos una conexión con Socket.IO y con un mensaje
-io.on('connection', function (socket) {
-  console.log('Nuevo cliente conectado')
-  socket.emit('mensaje', 'Bienvenido!')
-});
-
-// Enviamos el mensaje del socket con un setInterval
-setInterval(function () {
-  io.emit('mensaje', 'Hola, desde un Socket.IO de Platzi')
-}, 3000);
-
-// Iniciamos el servidor en el puerto 8080
-server.listen(8080, function () {
-  console.log('Servidor iniciado en http://localhost:8080')
-});
